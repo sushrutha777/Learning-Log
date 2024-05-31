@@ -16,26 +16,33 @@
             left: 50%;
             transform: translateX(-50%);
         }
+        /* Make Learning Log button bold and enlarge the width */
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 2.0rem; /* Increase font size */
+        }
+        /* Make the 'Hello' text stylish and increase its size */
+        .navbar-text {
+            font-style: italic;
+            font-weight: bold;
+            font-size: 1.5rem; /* Increase font size */
+        }
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-0">
     <div class="container-fluid">
-        <div class="d-flex order-1">
-            {% if user.is_authenticated %}
-                <span class="navbar-text">Hello, {{ user.username }}</span>
-            {% endif %}
-        </div>
-        <a class="navbar-brand navbar-center" href="{% url 'learning_logs:index' %}">Learning Log</a>
+        <!-- Moved 'Log out' and 'Log in' buttons after 'Learning Log' title -->
+        <a class="navbar-brand" href="{% url 'learning_logs:index' %}">Learning Log</a>
         <ul class="navbar-nav ml-auto order-2">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+            </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'accounts:logout' %}">Log out</a>
                 </li>
             {% else %}
-                <li class="nav-item">
-                    <a class="btn btn-primary nav-link" href="{% url 'learning_logs:topics' %}">Topics</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'accounts:login' %}">Log in</a>
                 </li>
@@ -43,15 +50,13 @@
         </ul>
     </div>
 </nav>
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+{% if user.is_authenticated %}
+<nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
-            </li>
-        </ul>
+        <span class="navbar-text">Hello, {{ user.username }}</span>
     </div>
 </nav>
+{% endif %}
 <main role="main" class="container">
     <div class="pb-2 mb-2 border-bottom">
         {% block page_header %}{% endblock page_header %}
@@ -60,6 +65,5 @@
         {% block content %}{% endblock content %}
     </div>
 </main>
-
 </body>
 </html>

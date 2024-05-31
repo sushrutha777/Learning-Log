@@ -1,18 +1,78 @@
 {% extends 'learning_logs/base.html' %}
+
 {% block page_header %}
-    <h1>Topics</h1>
+    <style>
+        /* Full screen colorful background design */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(45deg, rgba(255,0,150,0.3), rgba(0,204,255,0.3));
+            z-index: -3;
+        }
+
+        .background::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at top left, rgba(255,182,193,0.5), transparent);
+            z-index: -2;
+        }
+
+        .background::after {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at bottom right, rgba(173,216,230,0.5), transparent);
+            z-index: -1;
+        }
+
+        .content-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 20px; /* Adjusted padding for better content spacing */
+        }
+
+        .card {
+            border-radius: 15px;
+        }
+
+        .card-header {
+            background-color: rgba(0, 123, 255, 0.1); /* Light blue background for card headers */
+        }
+    </style>
 {% endblock page_header %}
+
 {% block content %}
-    <ul>
-        {% for topic in topics %}
-            <li><h3>
-                <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
-            </h3></li>
-        {% empty %}
-            <li><h3>No topics have been added yet.</h3></li>
-        {% endfor %}
-    </ul>
-    <h3><a href="{% url 'learning_logs:new_topic' %}">
-        Add a new topic
-    </a></h3>
-{% endblock content %}
+    <div class="background"></div>
+    <div class="content-container">
+        <h1>Topics</h1>
+        <ul>
+            {% for topic in topics %}
+                <li>
+                    <h3>
+                        <a href="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a>
+                    </h3>
+                </li>
+            {% empty %}
+                <li><h3>No topics have been added yet.</h3></li>
+            {% endfor %}
+        </ul>
+        <h3>
+            <a href="{% url 'learning_logs:new_topic' %}" class="btn btn-primary">Add a new topic</a>
+        </h3>
+    </div>
+{% endblock%}

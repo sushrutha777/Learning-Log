@@ -2,16 +2,73 @@
 {% load django_bootstrap5 %}
 
 {% block page_header %}
-    <h2>Log in to your account.</h2>
-{% endblock page_header %}
+    <style>
+        /* Full screen colorful background design */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
 
-{% block content %}
-    <form action="{% url 'accounts:login' %}" method="post" class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <div class="mb-3">
-            <button name="submit" class="btn btn-primary">Log in</button>
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(45deg, rgba(255,0,150,0.3), rgba(0,204,255,0.3));
+            z-index: -3;
+        }
+
+        .background::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at top left, rgba(255,182,193,0.5), transparent);
+            z-index: -2;
+        }
+
+        .background::after {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at bottom right, rgba(173,216,230,0.5), transparent);
+            z-index: -1;
+        }
+
+        .content-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px; /* Adjusted max-width for login form */
+        }
+    </style>
+    <div class="background"></div>
+    <div class="content-container">
+        <div class="card p-4 shadow bg-white">
+            <div class="text-center mb-3">
+                <h2>Log in to your account.</h2>
+            </div>
+            <form action="{% url 'accounts:login' %}" method="post" class="form">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <div class="mb-3">
+                    <button name="submit" class="btn btn-primary">Log in</button>
+                </div>
+                <input type="hidden" name="next" value="{% url 'learning_logs:index' %}"/>
+            </form>
         </div>
-        <input type="hidden" name="next" value="{% url 'learning_logs:index' %}"/>
-    </form>
-{% endblock content %}
+    </div>
+{% endblock%}

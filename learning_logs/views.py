@@ -4,7 +4,6 @@ from .models import Topic,Entry
 from .forms import TopicForm,EntryForm
 from django.http import Http404
 #home page, we use this defined index in urls.py in app folder
-@login_required
 def index(request):
     return render(request, 'learning_logs/index.html')
 @login_required

@@ -1,12 +1,75 @@
 {% extends "learning_logs/base.html" %}
 
+{% block page_header %}
+    <style>
+        /* Full screen colorful background design */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(45deg, rgba(255,0,150,0.3), rgba(0,204,255,0.3));
+            z-index: -3;
+        }
+
+        .background::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at top left, rgba(255,182,193,0.5), transparent);
+            z-index: -2;
+        }
+
+        .background::after {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at bottom right, rgba(173,216,230,0.5), transparent);
+            z-index: -1;
+        }
+
+        .content-container {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px; /* Adjusted max-width for registration form */
+        }
+    </style>
+{% endblock page_header %}
+
 {% block content %}
-
-<form action="{% url 'accounts:register' %}" method='post'>
-    {% csrf_token %}
-    {{ form.as_div }}
-
-    <button name="submit">Register</button>
-</form>
-
+    <div class="background"></div>
+    <div class="content-container">
+        <div class="card p-4 shadow bg-white">
+            <div class="text-center mb-3">
+                <h2>Register an account.</h2>
+            </div>
+            <form action="{% url 'accounts:register' %}" method="post" class="form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="mb-3 mt-3">
+                    <button name="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock%}

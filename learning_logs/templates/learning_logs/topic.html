@@ -1,24 +1,78 @@
 {% extends 'learning_logs/base.html' %}
-{% block page_header %}
-    <h1>{{ topic }}</h1>
-{% endblock page_header %}
-{% block content %}
 
-    <p>
-        <a href="{% url 'learning_logs:new_entry' topic.id %}">
-            Add a new entry
-        </a>
-    </p>
-    {% for entry in entries %}
-        <div class="card mb-3">
-            <h4 class="card-header">
-                {{ entry.date_added|date:'M d,Y H:i' }}
-                <small><a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a>
-                </small>
-            </h4>
-            <div class="card-body">{{ entry.text|linebreaks }}</div>
-        </div>
-    {% empty %}
-        <p>There are no entries for this topic yet.</p>
-    {% endfor %}
-{% endblock content %}
+{% block page_header %}
+    <style>
+        /* Full screen colorful background design */
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(45deg, rgba(255,0,150,0.3), rgba(0,204,255,0.3));
+            z-index: -3;
+        }
+
+        .background::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at top left, rgba(255,182,193,0.5), transparent);
+            z-index: -2;
+        }
+
+        .background::after {
+            content: "";
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle at bottom right, rgba(173,216,230,0.5), transparent);
+            z-index: -1;
+        }
+
+        .content-container {
+            position: relative;
+            min-height: 100vh;
+            padding: 20px; /* Adjusted padding for better content spacing */
+        }
+
+        .card {
+            border-radius: 15px;
+        }
+
+        .card-header {
+            background-color: rgba(0, 123, 255, 0.1); /* Light blue background for card headers */
+        }
+    </style>
+{% endblock page_header %}
+
+{% block content %}
+    <div class="background"></div>
+    <div class="content-container">
+        <h1>{{ topic }}</h1>
+        <p>
+            <a href="{% url 'learning_logs:new_entry' topic.id %}" class="btn btn-primary">Add a new entry</a>
+        </p>
+        {% for entry in entries %}
+            <div class="card mb-3">
+                <h4 class="card-header">
+                    {{ entry.date_added|date:'M d, Y H:i' }}
+                    <small><a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a></small>
+                </h4>
+                <div class="card-body">{{ entry.text|linebreaks }}</div>
+            </div>
+        {% empty %}
+            <p>There are no entries for this topic yet.</p>
+        {% endfor %}
+    </div>
+{% endblock%}
