@@ -6,7 +6,6 @@ from django.http import Http404
 #home page, we use this defined index in urls.py in app folder
 def index(request):
     return render(request, 'learning_logs/index.html')
-@login_required
 def topics(request):
     #to show all topics
     topics=Topic.objects.filter(owner=request.user).order_by('date_added')
